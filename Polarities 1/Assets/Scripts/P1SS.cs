@@ -90,5 +90,8 @@ public class ScriptableStats : MonoBehaviour
     public float ceilingBoxSize = 0.8f;
 
     [Tooltip("The speed at which a player is forced off a ceiling")]
+    public float ceilingBoxPosition = 0.3f;
+
+    [Tooltip("The speed at which a player is forced off a ceiling")]
     public float clipForce = 0.8f;
 }
