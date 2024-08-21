@@ -2,28 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScriptableStats : MonoBehaviour
+public class ScriptableStats2 : MonoBehaviour
 {
 
     // Normal Lateral Movement
     [Tooltip("The standard speed the player travels.")]
-    public float normalSpeed = 8f;
+    public float normalSpeed = 6f;
 
     [Tooltip("General ground deceleration")]
-    public float normalGroundDeceleration = 120f;
+    public float normalGroundDeceleration = 80f;
 
     [Tooltip("The player has a longer deceleration when moving through the air")]
-    public float normalAirDeceleration = 100f;
+    public float normalAirDeceleration = 50f;
 
     [Tooltip("General ground acceleration")]
-    public float normalGroundAcceleration = 140f;
+    public float normalGroundAcceleration = 100f;
 
     [Tooltip("The player has less control when moving through the air")]
-    public float normalAirAcceleration = 120f;
+    public float normalAirAcceleration = 70f;
 
     // Modified Lateral Movement
     [Tooltip("The fastest a player can generally move laterally without the influence of other external forces.")]
-    public float sprintSpeed = 14f;
+    public float sprintSpeed = 6f;
 
     [Tooltip("The player has takes longer to decelerate when sprinting")]
     public float sprintGroundDeceleration = 60f;
@@ -39,10 +39,10 @@ public class ScriptableStats : MonoBehaviour
 
     // Jumping
     [Tooltip("The speed at which the player leaves the ground when jumping.")]
-    public float jumpForce = 22f;
+    public float jumpForce = 16f;
 
     [Tooltip("The speed at which the player accelerates towards the ground.")]
-    public float gravityAcceleration = 90f;
+    public float gravityAcceleration = 65f;
 
     [Tooltip("The weight of the player")]
     public float weightForce = -1.5f;
@@ -54,26 +54,26 @@ public class ScriptableStats : MonoBehaviour
     public float jumpBufferTime = 0.08f;
 
     [Tooltip("How much of the maximum height the player jumps when letting go")]
-    public float jumpHeightModifier = 0.4f;
+    public float jumpHeightModifier = 0.5f;
 
     [Tooltip("How much of the maximum height the player jumps when letting go")]
     public float hitboxHeight = 0.1f;
 
     [Tooltip("How much of the maximum height the player jumps when letting go")]
-    public float hitboxBase = 0.5f;
+    public float hitboxBase = 0.4f;
 
     [Tooltip("How much of the maximum height the player jumps when letting go")]
-    public float graceGravityModifier = 0.5f;
+    public float graceGravityModifier = 0.4f;
 
     [Tooltip("How much of the maximum height the player jumps when letting go")]
     public float verticalSpeedApexThreshold = 1f;
 
     // Maximum Speeds the Player May Fall
     [Tooltip("The modified terminal velocity of the player")]
-    public float fastFallSpeed = 35f;
+    public float fastFallSpeed = 25f;
 
     [Tooltip("The rate of change between slow and fast fall")]
-    public float fastFallAcceleration = 220f;
+    public float fastFallAcceleration = 150f;
 
     [Tooltip("The highest at which the player may move upward before being able to initiate a fast fall")]
     public float fastFallActuationSpeed = 3f;
@@ -87,10 +87,10 @@ public class ScriptableStats : MonoBehaviour
     public float ceilingBounce = 5f;
 
     [Tooltip("The speed at which a player is forced off a ceiling")]
-    public float ceilingBoxSize = 0.8f;
+    public float ceilingBoxSize = 0.45f;
 
     [Tooltip("The speed at which a player is forced off a ceiling")]
-    public float ceilingBoxPosition = 0.3f;
+    public float ceilingBoxPosition = -0.4f;
 
     [Tooltip("The speed at which a player is forced off a ceiling")]
     public float clipForce = 0.8f;

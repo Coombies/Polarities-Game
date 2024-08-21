@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
-public class SuperCharacterController : MonoBehaviour
+public class SuperCharacterController2 : MonoBehaviour
 {
     private float xMovement;
     private float coyoteJump;
@@ -28,17 +29,17 @@ public class SuperCharacterController : MonoBehaviour
 
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private CapsuleCollider2D playerCol;
+    [SerializeField] private BoxCollider2D playerCol;
+    [SerializeField] private BoxCollider2D otherPlayerCol;
     [SerializeField] private Collider2D objectCol;
-    [SerializeField] private ScriptableStats stats;
+    [SerializeField] private ScriptableStats2 stats;
 
 
     private void Start()
     {
         // links class Scriptable Stats, filled with all constant variables for convenience
-        stats = GameObject.Find("P1SS").GetComponent<ScriptableStats>();
         rb = GetComponent<Rigidbody2D>();
-
+        Physics2D.IgnoreCollision(playerCol, otherPlayerCol, true);
     }
 
     private void Update()
@@ -60,7 +61,7 @@ public class SuperCharacterController : MonoBehaviour
     }
 
     // applies x and y velocity to rigidbody
-    private void ApplyMovement() => rb.velocity = movement;
+    private void ApplyMovement() => rb.velocity = -movement;
 
     private void PreviousVariables()
     {
@@ -193,21 +194,19 @@ public class SuperCharacterController : MonoBehaviour
 
     private void EdgeHandling()
     {
-        bool leftCheck = Physics2D.OverlapBox(ceilingBoxLeft.position + new Vector3(-(1 - stats.ceilingBoxSize) / 2f, 0f, 0f), new Vector2(stats.ceilingBoxSize - 0.05f, 0.1f), 0f, groundLayer);
-        bool rightCheck = Physics2D.OverlapBox(ceilingBoxRight.position + new Vector3((1 - stats.ceilingBoxSize) / 2f, 0f, 0f), new Vector2(stats.ceilingBoxSize - 0.05f, 0.1f), 0f, groundLayer);
+        bool leftCheck = Physics2D.OverlapBox(ceilingBoxLeft.position + new Vector3(-(1 - stats.ceilingBoxSize + stats.ceilingBoxPosition) / 2f, 0f, 0f), new Vector2(stats.ceilingBoxSize - 0.05f, 0.1f), 0f, groundLayer);
+        bool rightCheck = Physics2D.OverlapBox(ceilingBoxRight.position + new Vector3((1 - stats.ceilingBoxSize + stats.ceilingBoxPosition) / 2f, 0f, 0f), new Vector2(stats.ceilingBoxSize - 0.05f, 0.1f), 0f, groundLayer);
 
 
         if (rightCheck && !leftCheck)
         {
             Physics2D.IgnoreCollision(playerCol, objectCol, true);
             rb.AddForce(Vector2.right * -(stats.clipForce + movement.x), ForceMode2D.Impulse);
-            movement.y = (previousYVelocity + movement.y) / 2;
         }
         else if (leftCheck && !rightCheck)
         {
             Physics2D.IgnoreCollision(playerCol, objectCol, true);
             rb.AddForce(Vector2.right * (stats.clipForce + movement.x), ForceMode2D.Impulse);
-            movement.y = (previousYVelocity + movement.y) / 2;
         }
         else if (TouchingCeiling())
         {
@@ -223,8 +222,11 @@ public class SuperCharacterController : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(ceilingBoxRight.position + new Vector3((1 - stats.ceilingBoxSize) / 2f, 0f, 0f), new Vector2(stats.ceilingBoxSize - 0.05f, 0.1f));
-        Gizmos.DrawWireCube(ceilingBoxLeft.position + new Vector3(-(1 - stats.ceilingBoxSize) / 2f, 0f, 0f), new Vector2(stats.ceilingBoxSize - 0.05f, 0.1f));
+        Gizmos.DrawWireCube(ceilingBoxRight.position + new Vector3((1 - stats.ceilingBoxSize + stats.ceilingBoxPosition) / 2f, 0f, 0f), new Vector2(stats.ceilingBoxSize - 0.05f, 0.1f));
+        Gizmos.DrawWireCube(ceilingBoxLeft.position + new Vector3(-(1 - stats.ceilingBoxSize + stats.ceilingBoxPosition) / 2f, 0f, 0f), new Vector2(stats.ceilingBoxSize - 0.05f, 0.1f));
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(groundCheck.position, new Vector2(stats.hitboxBase, stats.hitboxHeight));
     }
 }
 
