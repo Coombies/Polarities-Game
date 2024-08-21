@@ -64,6 +64,7 @@
     <Compile Include="Assets\Scripts\P2ScriptableStats.cs" />
     <Compile Include="Assets\Scripts\P1ScriptableStats.cs" />
     <Compile Include="Assets\Scripts\P1SuperCharacterController.cs" />
+    <Compile Include="Assets\Scripts\LadderMovement.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
