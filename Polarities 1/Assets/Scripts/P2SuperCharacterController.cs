@@ -20,7 +20,8 @@ public class SuperCharacterController2 : MonoBehaviour
 
     private bool isFacingRight;
 
-    public Vector2 movement;
+    private Vector2 movement;
+    private Collider2D objectCol;
 
     [SerializeField] private Transform groundCheck;
     [SerializeField] private Transform ceilingCheck;
@@ -31,13 +32,14 @@ public class SuperCharacterController2 : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private BoxCollider2D playerCol;
     [SerializeField] private BoxCollider2D otherPlayerCol;
-    [SerializeField] private Collider2D objectCol;
+    [SerializeField] private GameObject objectWithCompositeCollider;
     [SerializeField] private ScriptableStats2 stats;
 
 
     private void Start()
     {
         // links class Scriptable Stats, filled with all constant variables for convenience
+        objectCol = objectWithCompositeCollider.GetComponent<CompositeCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         Physics2D.IgnoreCollision(playerCol, otherPlayerCol, true);
     }
