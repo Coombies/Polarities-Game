@@ -6,6 +6,9 @@ using UnityEngine;
 public class SuperCharacterController2 : MonoBehaviour
 {
     private float xMovement;
+    private float yMovement;
+    private float previousYVelocity;
+    private float previousXVelocity;
     private float coyoteJump;
     private float gravityModifier;
     private float bufferJump;
@@ -15,15 +18,12 @@ public class SuperCharacterController2 : MonoBehaviour
     private float airDeceleration;
     private float moveSpeed;
 
-    private float previousYVelocity;
-    private float previousXVelocity;
-
     private bool isFacingRight;
 
     private Vector2 movement;
     private Collider2D objectCol;
 
-    [SerializeField] private Transform groundCheck;
+    [Header("Default Object References"), SerializeField] private Transform groundCheck;
     [SerializeField] private Transform ceilingCheck;
     [SerializeField] private Transform ceilingBoxRight;
     [SerializeField] private Transform ceilingBoxLeft;
@@ -33,8 +33,11 @@ public class SuperCharacterController2 : MonoBehaviour
     [SerializeField] private BoxCollider2D playerCol;
     [SerializeField] private BoxCollider2D otherPlayerCol;
     [SerializeField] private GameObject objectWithCompositeCollider;
-    [SerializeField] private ScriptableStats2 stats;
+    [SerializeField] private ScriptableStats stats;
 
+    // modded variables
+    private bool isLadder;
+    private bool isClimbing;
 
     private void Start()
     {
@@ -50,6 +53,9 @@ public class SuperCharacterController2 : MonoBehaviour
         GetInput();
         CheckJumping();
         Flip();
+
+        // calls modded methods that require inputs
+        CheckLadder();
     }
 
     private void FixedUpdate()
@@ -60,6 +66,9 @@ public class SuperCharacterController2 : MonoBehaviour
         ApplyGravity();
         HandleXMovement();
         EdgeHandling();
+
+        // calls modded methods that apply movement change
+        ClimbLadder();
     }
 
     // applies x and y velocity to rigidbody
@@ -73,8 +82,9 @@ public class SuperCharacterController2 : MonoBehaviour
 
     private void GetInput()
     {
-        // xMovement returns -1, 0, or 1
+        // Movement returns -1, 0, or 1
         xMovement = Input.GetAxisRaw("Horizontal");
+        yMovement = Input.GetAxisRaw("Vertical");
 
         // There is air acceleration/deceleration, and a different speed for sprint and walk for
         // maximum control over the platformers movement
@@ -229,6 +239,40 @@ public class SuperCharacterController2 : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(groundCheck.position, new Vector2(stats.hitboxBase, stats.hitboxHeight));
+    }
+
+    // Below are additional methods that aren't a part of the default script
+
+    private void CheckLadder()
+    {
+        if (isLadder && Mathf.Abs(yMovement) > 0)
+        {
+            isClimbing = true;
+        }
+    }
+    private void ClimbLadder()
+    {
+        if (isClimbing)
+        {
+            movement.y = stats.ladderClimbSpeed * yMovement;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D ladderCollision)
+    {
+        if (ladderCollision.CompareTag("Ladder"))
+        {
+            isLadder = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D ladderCollision)
+    {
+        if (ladderCollision.CompareTag("Ladder"))
+        {
+            isLadder = false;
+            isClimbing = false;
+        }
     }
 }
 

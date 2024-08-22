@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScriptableStats1 : MonoBehaviour
+[CreateAssetMenu(fileName = "GlobalStats", menuName = "Stats/GlobalStats")]
+public class ScriptableStats : MonoBehaviour
 {
 
     // Normal Lateral Movement
-    [Tooltip("The standard speed the player travels.")]
-    public float normalSpeed = 6f;
+    [Header("Normal Lateral Movement"), Tooltip("The standard speed the player travels.")]
+    public float normalSpeed = 5f;
 
     [Tooltip("General ground deceleration")]
     public float normalGroundDeceleration = 80f;
@@ -22,27 +23,28 @@ public class ScriptableStats1 : MonoBehaviour
     public float normalAirAcceleration = 70f;
 
     // Modified Lateral Movement
-    [Tooltip("The fastest a player can generally move laterally without the influence of other external forces.")]
-    public float sprintSpeed = 6f;
+    [Header("Modified Lateral Movement"), Tooltip("The fastest a player can generally move laterally without the influence of other external forces."),
+        ContextMenuItem("Set Default Sprint Settings", "SprintDefaultModifier")]
+    public float sprintSpeed = 7f;
 
-    [Tooltip("The player has takes longer to decelerate when sprinting")]
-    public float sprintGroundDeceleration = 60f;
+    [Tooltip("The player has takes longer to decelerate when sprinting.")]
+    public float sprintGroundDeceleration = 30f;
 
     [Tooltip("The player has takes much longer to decelerate when sprinting in the air")]
-    public float sprintAirDeceleration = 50f;
+    public float sprintAirDeceleration = 20f;
 
     [Tooltip("The player has takes longer to accelerate when sprinting")]
-    public float sprintGroundAcceleration = 70f;
+    public float sprintGroundAcceleration = 40f;
 
     [Tooltip("The player has takes much longer to accelerate when sprinting in the air")]
-    public float sprintAirAcceleration = 60f;
+    public float sprintAirAcceleration = 30f;
 
     // Jumping
-    [Tooltip("The speed at which the player leaves the ground when jumping.")]
-    public float jumpForce = 16f;
+    [Header("Jumping"), Tooltip("The speed at which the player leaves the ground when jumping.")]
+    public float jumpForce = 14f;
 
     [Tooltip("The speed at which the player accelerates towards the ground.")]
-    public float gravityAcceleration = 65f;
+    public float gravityAcceleration = 50f;
 
     [Tooltip("The weight of the player")]
     public float weightForce = -1.5f;
@@ -66,10 +68,10 @@ public class ScriptableStats1 : MonoBehaviour
     public float graceGravityModifier = 0.4f;
 
     [Tooltip("How much of the maximum height the player jumps when letting go")]
-    public float verticalSpeedApexThreshold = 1f;
+    public float verticalSpeedApexThreshold = 2f;
 
     // Maximum Speeds the Player May Fall
-    [Tooltip("The modified terminal velocity of the player")]
+    [Header("Fall Speeds"), Tooltip("The modified terminal velocity of the player")]
     public float fastFallSpeed = 25f;
 
     [Tooltip("The rate of change between slow and fast fall")]
@@ -83,15 +85,41 @@ public class ScriptableStats1 : MonoBehaviour
 
 
     // Ceiling Control
-    [Tooltip("The speed at which a player is forced off a ceiling")]
+    [Header("Ceiling Control"), Tooltip("The speed at which a player is forced off a ceiling")]
     public float ceilingBounce = 5f;
 
-    [Tooltip("The speed at which a player is forced off a ceiling")]
-    public float ceilingBoxSize = 0.45f;
+    [Range(0.0f, 1f), Tooltip("The x width of the ceiling hitboxes")]
+    public float ceilingBoxSize = 0.35f;
 
-    [Tooltip("The speed at which a player is forced off a ceiling")]
-    public float ceilingBoxPosition = -0.4f;
+    [Range(-1f, 1f), Tooltip("The absolute x position of the ceiling hitboxes")]
+    public float ceilingBoxPosition = -0.5f;
 
-    [Tooltip("The speed at which a player is forced off a ceiling")]
+    [Tooltip("The speed at which a player forced to the side of a ceiling")]
     public float clipForce = 0.8f;
+
+    [Space(50), Header("                                MODDED STATS")]
+
+
+    [Header("Ladders")]
+    public float ladderClimbSpeed = 5f;
+
+
+    // Inspector Steps
+    [Space(30), Header("Inspector Steps"), Tooltip("Rounds slider changes to nearest .01")]
+    public float step1 = 0.01f;
+
+    private void OnValidate()
+    {
+        ceilingBoxSize = Mathf.Round(ceilingBoxSize / step1) * step1;
+        ceilingBoxPosition = Mathf.Round(ceilingBoxPosition / step1) * step1;
+    }
+
+    private void SprintDefaultModifier()
+    {
+        sprintSpeed = normalSpeed * 1.5f;
+        sprintGroundAcceleration = normalGroundAcceleration * 0.5f;
+        sprintGroundDeceleration = normalGroundDeceleration * 0.5f;
+        sprintAirAcceleration = normalAirAcceleration * 0.5f;
+        sprintAirDeceleration = normalAirDeceleration * 0.5f;
+    }
 }

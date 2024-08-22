@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LadderMovement : MonoBehaviour
+public class P2LadderMovement : MonoBehaviour
 {
     private float yMovement;
-    public float speed = 8f;
+    public float speed = -8f;
     private bool isLadder;
     private bool isClimbing;
 
@@ -14,8 +14,8 @@ public class LadderMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        yMovement = Input.GetAxis("Vertical");
 
+        yMovement = Input.GetAxis("Vertical");
         if (isLadder && Mathf.Abs(yMovement) > 0)
         {
             isClimbing = true;
@@ -26,7 +26,7 @@ public class LadderMovement : MonoBehaviour
     {
         if (isClimbing)
         {
-            rb.velocity = new Vector2(rb.velocity.x, yMovement * speed);
+            rb.velocity = new Vector2(rb.velocity.x, speed * yMovement);
         }
     }
 
@@ -44,6 +44,7 @@ public class LadderMovement : MonoBehaviour
         {
             isLadder = false;
             isClimbing = false;
+            rb.velocity = new Vector2(rb.velocity.x, 0);
         }
     }
 }
