@@ -213,12 +213,12 @@ public class SuperCharacterController1 : MonoBehaviour
         if (rightCheck && !leftCheck)
         {
             Physics2D.IgnoreCollision(playerCol, objectCol, true);
-            rb.AddForce(Vector2.right * -(stats.clipForce + movement.x), ForceMode2D.Impulse);
+            rb.AddForce(Vector2.right * -(stats.clipForce + Mathf.Abs(movement.x)), ForceMode2D.Impulse);
         }
         else if (leftCheck && !rightCheck)
         {
             Physics2D.IgnoreCollision(playerCol, objectCol, true);
-            rb.AddForce(Vector2.right * (stats.clipForce + movement.x), ForceMode2D.Impulse);
+            rb.AddForce(Vector2.left * -(stats.clipForce + Mathf.Abs(movement.x)), ForceMode2D.Impulse);
         }
         else if (TouchingCeiling())
         {

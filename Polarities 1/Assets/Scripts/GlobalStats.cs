@@ -41,10 +41,10 @@ public class ScriptableStats : MonoBehaviour
 
     // Jumping
     [Header("Jumping"), Tooltip("The speed at which the player leaves the ground when jumping.")]
-    public float jumpForce = 14f;
+    public float jumpForce = 17.5f;
 
     [Tooltip("The speed at which the player accelerates towards the ground.")]
-    public float gravityAcceleration = 50f;
+    public float gravityAcceleration = 70f;
 
     [Tooltip("The weight of the player")]
     public float weightForce = -1.5f;
@@ -56,7 +56,7 @@ public class ScriptableStats : MonoBehaviour
     public float jumpBufferTime = 0.08f;
 
     [Tooltip("How much of the maximum height the player jumps when letting go")]
-    public float jumpHeightModifier = 0.5f;
+    public float jumpHeightModifier = 0.4f;
 
     [Tooltip("How much of the maximum height the player jumps when letting go")]
     public float hitboxHeight = 0.1f;
@@ -65,14 +65,14 @@ public class ScriptableStats : MonoBehaviour
     public float hitboxBase = 0.4f;
 
     [Tooltip("How much of the maximum height the player jumps when letting go")]
-    public float graceGravityModifier = 0.4f;
+    public float graceGravityModifier = 0.35f;
 
     [Tooltip("How much of the maximum height the player jumps when letting go")]
-    public float verticalSpeedApexThreshold = 2f;
+    public float verticalSpeedApexThreshold = 2.5f;
 
     // Maximum Speeds the Player May Fall
     [Header("Fall Speeds"), Tooltip("The modified terminal velocity of the player")]
-    public float fastFallSpeed = 25f;
+    public float fastFallSpeed = 24f;
 
     [Tooltip("The rate of change between slow and fast fall")]
     public float fastFallAcceleration = 150f;
@@ -81,7 +81,7 @@ public class ScriptableStats : MonoBehaviour
     public float fastFallActuationSpeed = 3f;
 
     [Tooltip("The general terminal velocity of the player")]
-    public float slowFallSpeed = 18f;
+    public float slowFallSpeed = 17f;
 
 
     // Ceiling Control
@@ -95,7 +95,7 @@ public class ScriptableStats : MonoBehaviour
     public float ceilingBoxPosition = -0.5f;
 
     [Tooltip("The speed at which a player forced to the side of a ceiling")]
-    public float clipForce = 0.8f;
+    public float clipForce = 1f;
 
     [Space(50), Header("                                MODDED STATS")]
 
