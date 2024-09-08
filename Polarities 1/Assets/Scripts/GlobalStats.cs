@@ -41,10 +41,10 @@ public class ScriptableStats : MonoBehaviour
 
     // Jumping
     [Header("Jumping"), Tooltip("The speed at which the player leaves the ground when jumping.")]
-    public float jumpForce = 17.5f;
+    public float jumpForce = 15.5f;
 
     [Tooltip("The speed at which the player accelerates towards the ground.")]
-    public float gravityAcceleration = 70f;
+    public float gravityAcceleration = 65f;
 
     [Tooltip("The weight of the player")]
     public float weightForce = -1.5f;
@@ -65,7 +65,7 @@ public class ScriptableStats : MonoBehaviour
     public float hitboxBase = 0.4f;
 
     [Tooltip("How much of the maximum height the player jumps when letting go")]
-    public float graceGravityModifier = 0.35f;
+    public float graceGravityModifier = 0.4f;
 
     [Tooltip("How much of the maximum height the player jumps when letting go")]
     public float verticalSpeedApexThreshold = 2.5f;
