@@ -21,7 +21,7 @@ public class SuperCharacterController2 : MonoBehaviour
     private bool isFacingRight;
 
     private Vector2 movement;
-    private Collider2D objectCol;
+    private List<CompositeCollider2D> groundColliders = new List<CompositeCollider2D>();
 
     [Header("Default Object References"), SerializeField] private Transform groundCheck;
     [SerializeField] private Transform ceilingCheck;
@@ -31,8 +31,8 @@ public class SuperCharacterController2 : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private BoxCollider2D playerCol;
+    [SerializeField] private BoxCollider2D playerHitbox;
     [SerializeField] private BoxCollider2D otherPlayerCol;
-    [SerializeField] private GameObject objectWithCompositeCollider;
     [SerializeField] private ScriptableStats stats;
 
     // modded variables
@@ -42,7 +42,15 @@ public class SuperCharacterController2 : MonoBehaviour
     private void Start()
     {
         // links class Scriptable Stats, filled with all constant variables for convenience
-        objectCol = objectWithCompositeCollider.GetComponent<CompositeCollider2D>();
+        GameObject[] groundObjects = GameObject.FindGameObjectsWithTag("Ground");
+        foreach (GameObject obj in groundObjects)
+        {
+            CompositeCollider2D objectCol = obj.GetComponent<CompositeCollider2D>();
+            if (objectCol != null)
+            {
+                groundColliders.Add(objectCol);
+            }
+        }
         rb = GetComponent<Rigidbody2D>();
         Physics2D.IgnoreCollision(playerCol, otherPlayerCol, true);
     }
@@ -206,28 +214,32 @@ public class SuperCharacterController2 : MonoBehaviour
 
     private void EdgeHandling()
     {
+
         bool leftCheck = Physics2D.OverlapBox(ceilingBoxLeft.position + new Vector3(-(1 - stats.ceilingBoxSize + stats.ceilingBoxPosition) / 2f, 0f, 0f), new Vector2(stats.ceilingBoxSize - 0.05f, 0.1f), 0f, groundLayer);
         bool rightCheck = Physics2D.OverlapBox(ceilingBoxRight.position + new Vector3((1 - stats.ceilingBoxSize + stats.ceilingBoxPosition) / 2f, 0f, 0f), new Vector2(stats.ceilingBoxSize - 0.05f, 0.1f), 0f, groundLayer);
 
+        foreach (Collider2D objectCol in groundColliders)
+        {
 
-        if (rightCheck && !leftCheck)
-        {
-            Physics2D.IgnoreCollision(playerCol, objectCol, true);
-            rb.AddForce(Vector2.left * (stats.clipForce + Mathf.Abs(movement.x)), ForceMode2D.Impulse);
-        }
-        else if (leftCheck && !rightCheck)
-        {
-            Physics2D.IgnoreCollision(playerCol, objectCol, true);
-            rb.AddForce(Vector2.right * (stats.clipForce + Mathf.Abs(movement.x)), ForceMode2D.Impulse);
-        }
-        else if (TouchingCeiling())
-        {
-            Physics2D.IgnoreCollision(playerCol, objectCol, false);
-            movement.y = -stats.ceilingBounce;
-        }
-        else
-        {
-            Physics2D.IgnoreCollision(playerCol, objectCol, false);
+            if (rightCheck && !leftCheck)
+            {
+                Physics2D.IgnoreCollision(playerCol, objectCol, true);
+                rb.AddForce(Vector2.left * (stats.clipForce + Mathf.Abs(xMovement)), ForceMode2D.Impulse);
+            }
+            else if (leftCheck && !rightCheck)
+            {
+                Physics2D.IgnoreCollision(playerCol, objectCol, true);
+                rb.AddForce(Vector2.right * (stats.clipForce + Mathf.Abs(xMovement)), ForceMode2D.Impulse);
+            }
+            else if (TouchingCeiling())
+            {
+                Physics2D.IgnoreCollision(playerCol, objectCol, false);
+                movement.y = -stats.ceilingBounce;
+            }
+            else
+            {
+                Physics2D.IgnoreCollision(playerCol, objectCol, false);
+            }
         }
     }
 

@@ -11,16 +11,16 @@ public class ScriptableStats : MonoBehaviour
     public float normalSpeed = 5f;
 
     [Tooltip("General ground deceleration")]
-    public float normalGroundDeceleration = 80f;
+    public float normalGroundDeceleration = 40f;
 
     [Tooltip("The player has a longer deceleration when moving through the air")]
-    public float normalAirDeceleration = 50f;
+    public float normalAirDeceleration = 30f;
 
     [Tooltip("General ground acceleration")]
-    public float normalGroundAcceleration = 100f;
+    public float normalGroundAcceleration = 60f;
 
     [Tooltip("The player has less control when moving through the air")]
-    public float normalAirAcceleration = 70f;
+    public float normalAirAcceleration = 50f;
 
     // Modified Lateral Movement
     [Header("Modified Lateral Movement"), Tooltip("The fastest a player can generally move laterally without the influence of other external forces."),
@@ -41,10 +41,10 @@ public class ScriptableStats : MonoBehaviour
 
     // Jumping
     [Header("Jumping"), Tooltip("The speed at which the player leaves the ground when jumping.")]
-    public float jumpForce = 15.5f;
+    public float jumpForce = 17f;
 
     [Tooltip("The speed at which the player accelerates towards the ground.")]
-    public float gravityAcceleration = 65f;
+    public float gravityAcceleration = 75f;
 
     [Tooltip("The weight of the player")]
     public float weightForce = -1.5f;
@@ -68,7 +68,7 @@ public class ScriptableStats : MonoBehaviour
     public float graceGravityModifier = 0.4f;
 
     [Tooltip("How much of the maximum height the player jumps when letting go")]
-    public float verticalSpeedApexThreshold = 2.5f;
+    public float verticalSpeedApexThreshold = 3f;
 
     // Maximum Speeds the Player May Fall
     [Header("Fall Speeds"), Tooltip("The modified terminal velocity of the player")]
@@ -89,13 +89,13 @@ public class ScriptableStats : MonoBehaviour
     public float ceilingBounce = 5f;
 
     [Range(0.0f, 1f), Tooltip("The x width of the ceiling hitboxes")]
-    public float ceilingBoxSize = 0.35f;
+    public float ceilingBoxSize = 0.25f;
 
     [Range(-1f, 1f), Tooltip("The absolute x position of the ceiling hitboxes")]
     public float ceilingBoxPosition = -0.5f;
 
     [Tooltip("The speed at which a player forced to the side of a ceiling")]
-    public float clipForce = 1f;
+    public float clipForce = 1.5f;
 
     [Space(50), Header("                                MODDED STATS")]
 

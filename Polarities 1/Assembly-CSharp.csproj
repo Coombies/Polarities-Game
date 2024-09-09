@@ -65,6 +65,7 @@
     <Compile Include="Assets\Scripts\P1SuperCharacterController.cs" />
     <Compile Include="Assets\Scripts\GlobalStats.cs" />
     <Compile Include="Assets\Scripts\P2SuperCharacterController.cs" />
+    <Compile Include="Assets\Scripts\HurtboxCollision.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
