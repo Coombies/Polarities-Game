@@ -85,8 +85,8 @@ public class ScriptableStats : MonoBehaviour
 
 
     // Ceiling Control
-    [Header("Ceiling Control"), Tooltip("The speed at which a player is forced off a ceiling")]
-    public float ceilingBounce = 5f;
+    [Header("Ceiling Control"), Tooltip("The speed at which a player is forced off a ceiling"), Range(0.75f, 1f)]
+    public float ceilingBounce = 0.9f;
 
     [Range(0.0f, 1f), Tooltip("The x width of the ceiling hitboxes")]
     public float ceilingBoxSize = 0.25f;
@@ -99,9 +99,15 @@ public class ScriptableStats : MonoBehaviour
 
     [Space(50), Header("                                MODDED STATS")]
 
-
-    [Header("Ladders")]
+    // Ladder Variables
+    [Header("Ladders"), Tooltip("The speed at which the player climbs the ladder")]
     public float ladderClimbSpeed = 5f;
+
+    // Player Hurtbox Control
+    [Header("Hurtbox Control"), Tooltip("Centre of the capsule")]
+    public Vector2 capsuleCenter = new Vector2(0f, 0f);
+    public Vector2 capsuleSize = new Vector2(0.5f, 1.375f);
+    public CapsuleDirection2D capsuleDirection = CapsuleDirection2D.Vertical;
 
 
     // Inspector Steps

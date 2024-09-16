@@ -17,7 +17,5 @@ public class AnimationController : MonoBehaviour
             anim.SetBool("IsWalking", true);
         else
             anim.SetBool("IsWalking", false);
-
-        Debug.Log(xMovement);
     }
 }

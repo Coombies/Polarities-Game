@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SuperCharacterController1 : MonoBehaviour
 {
@@ -39,6 +40,9 @@ public class SuperCharacterController1 : MonoBehaviour
     // modded variables
     private bool isLadder;
     private bool isClimbing;
+
+    [SerializeField] private Transform hurtBox;
+    [SerializeField] private LayerMask hazardLayer;
 
     private void Start()
     {
@@ -79,6 +83,7 @@ public class SuperCharacterController1 : MonoBehaviour
 
         // calls modded methods that apply movement change
         ClimbLadder();
+        CheckHazards();
     }
 
     // applies x and y velocity to rigidbody
@@ -236,7 +241,7 @@ public class SuperCharacterController1 : MonoBehaviour
             else if (TouchingCeiling())
             {
                 Physics2D.IgnoreCollision(playerCol, objectCol, false);
-                movement.y = -stats.ceilingBounce;
+                movement.y = Mathf.Abs(movement.y) * -stats.ceilingBounce;
             }
             else
             {
@@ -253,6 +258,10 @@ public class SuperCharacterController1 : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(groundCheck.position, new Vector2(stats.hitboxBase, stats.hitboxHeight));
+
+        // modded gizmos
+        Gizmos.color = Color.blue;
+        DrawCapsule(new Vector2(hurtBox.position.x + stats.capsuleCenter.x, hurtBox.position.y + stats.capsuleCenter.y), stats.capsuleSize, stats.capsuleDirection);
     }
 
     // Below are additional methods that aren't a part of the default script
@@ -269,6 +278,46 @@ public class SuperCharacterController1 : MonoBehaviour
         if (isClimbing)
         {
             movement.y = stats.ladderClimbSpeed * yMovement;
+        }
+    }
+
+
+    private void CheckHazards()
+    {
+        if (SpikeHit())
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    private bool SpikeHit() => Physics2D.OverlapCapsule(new Vector2(hurtBox.position.x + stats.capsuleCenter.x, hurtBox.position.y + stats.capsuleCenter.y), stats.capsuleSize, stats.capsuleDirection, 0, hazardLayer);
+
+    void DrawCapsule(Vector2 center, Vector2 size, CapsuleDirection2D direction)
+    {
+        float radius = size.x / 2f; // width determines the radius
+        float height = size.y;      // height is used for the capsule height
+
+        if (direction == CapsuleDirection2D.Vertical)
+        {
+            // Draw two half circles (top and bottom) for vertical capsule
+            Vector2 topCircleCenter = new Vector2(center.x, center.y + (height / 2f - radius));
+            Vector2 bottomCircleCenter = new Vector2(center.x, center.y - (height / 2f - radius));
+            Gizmos.DrawWireSphere(topCircleCenter, radius);
+            Gizmos.DrawWireSphere(bottomCircleCenter, radius);
+
+            // Draw the connecting rectangle
+            Gizmos.DrawLine(new Vector2(center.x - radius, topCircleCenter.y), new Vector2(center.x - radius, bottomCircleCenter.y));
+            Gizmos.DrawLine(new Vector2(center.x + radius, topCircleCenter.y), new Vector2(center.x + radius, bottomCircleCenter.y));
+        }
+        else if (direction == CapsuleDirection2D.Horizontal)
+        {
+            // Draw two half circles (left and right) for horizontal capsule
+            Vector2 leftCircleCenter = new Vector2(center.x - (height / 2f - radius), center.y);
+            Vector2 rightCircleCenter = new Vector2(center.x + (height / 2f - radius), center.y);
+            Gizmos.DrawWireSphere(leftCircleCenter, radius);
+            Gizmos.DrawWireSphere(rightCircleCenter, radius);
+
+            // Draw the connecting rectangle
+            Gizmos.DrawLine(new Vector2(leftCircleCenter.x, center.y - radius), new Vector2(rightCircleCenter.x, center.y - radius));
+            Gizmos.DrawLine(new Vector2(leftCircleCenter.x, center.y + radius), new Vector2(rightCircleCenter.x, center.y + radius));
         }
     }
 
