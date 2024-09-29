@@ -135,6 +135,10 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2146361620616817954, guid: f83e6987c9068694c8b2d0db325d2240, type: 3}
+      propertyPath: hitboxHeight
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 2146361620616817954, guid: f83e6987c9068694c8b2d0db325d2240, type: 3}
       propertyPath: capsuleSize.x
       value: 0.5
       objectReference: {fileID: 0}

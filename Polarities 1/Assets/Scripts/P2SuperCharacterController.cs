@@ -20,6 +20,7 @@ public class SuperCharacterController2 : MonoBehaviour
     private float moveSpeed;
 
     private bool isFacingRight;
+    private bool isJumping;
 
     private Vector2 movement;
     private List<CompositeCollider2D> groundColliders = new List<CompositeCollider2D>();
@@ -36,12 +37,23 @@ public class SuperCharacterController2 : MonoBehaviour
     [SerializeField] private BoxCollider2D otherPlayerCol;
     [SerializeField] private ScriptableStats stats;
 
-    // modded variables
+    // Modded Variables
+
+    // Ladder Variables
     private bool isLadder;
     private bool isClimbing;
 
+    // Ice Variables
+    private bool isIce;
+    private float accelerationModifier = 1;
+
+    // One Way Platform Variables
+    private GameObject currentOneWay;
+    private bool ignoreGround;
+
     [SerializeField] private Transform hurtBox;
     [SerializeField] private LayerMask hazardLayer;
+    [SerializeField] private LayerMask otherPlayerLayer;
 
     private void Start()
     {
@@ -56,7 +68,11 @@ public class SuperCharacterController2 : MonoBehaviour
             }
         }
         rb = GetComponent<Rigidbody2D>();
-        Physics2D.IgnoreCollision(playerCol, otherPlayerCol, true);
+        Physics2D.IgnoreCollision(playerCol, otherPlayerCol);
+
+        GameObject oneWayObject = GameObject.FindGameObjectWithTag("OneWayUp");
+        CompositeCollider2D oneWayCol = oneWayObject.GetComponent<CompositeCollider2D>();
+        Physics2D.IgnoreCollision(playerCol, oneWayCol);
     }
 
     private void Update()
@@ -68,6 +84,8 @@ public class SuperCharacterController2 : MonoBehaviour
 
         // calls modded methods that require inputs
         CheckLadder();
+        CheckIce();
+        OneWayPlatform();
     }
 
     private void FixedUpdate()
@@ -142,7 +160,7 @@ public class SuperCharacterController2 : MonoBehaviour
     private void CheckJumping()
     {
         // Allows player to perform a jump for a short time after falling off a platform
-        if (IsGrounded())
+        if (IsGrounded() || isClimbing)
         {
             coyoteJump = stats.coyoteTime;
         }
@@ -155,6 +173,7 @@ public class SuperCharacterController2 : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             bufferJump = stats.jumpBufferTime;
+            isClimbing = false;
         }
         else
         {
@@ -166,6 +185,7 @@ public class SuperCharacterController2 : MonoBehaviour
         {
             movement.y = stats.jumpForce;
             bufferJump = 0;
+            isJumping = true;
         }
 
         if (Input.GetKeyUp(KeyCode.Space) && movement.y > 0)
@@ -174,11 +194,59 @@ public class SuperCharacterController2 : MonoBehaviour
             coyoteJump = 0f;
         }
 
+        if (movement.y <= 0)
+        {
+            isJumping = false;
+        }
     }
 
     // returns true if the GroundCheck object is colliding with the Ground layer
-    private bool IsGrounded() => Physics2D.OverlapBox(groundCheck.position, new Vector2(stats.hitboxBase, stats.hitboxHeight), 0f, groundLayer);
-    private bool TouchingCeiling() => Physics2D.OverlapBox(ceilingCheck.position, new Vector2(stats.hitboxBase, stats.hitboxHeight), 0f, groundLayer);
+    private bool IsGrounded()
+    {
+        // Perform OverlapBoxAll to get all colliders in the box
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(
+            groundCheck.position,
+            new Vector2(stats.hitboxBase, stats.hitboxHeight),
+            0f,
+            groundLayer
+        );
+
+        // Iterate through the colliders and check if any of them are not tagged as "OneWay"
+        foreach (var collider in colliders)
+        {
+            if (!collider.CompareTag("OneWayUp"))
+            {
+                // If we find a valid collision that is not "OneWay", return true
+                return true;
+            }
+        }
+
+        // If no valid collisions are found, return false
+        return false;
+    }
+    private bool TouchingCeiling()
+    {
+        // Perform OverlapBoxAll to get all colliders in the box
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(
+            ceilingCheck.position,
+            new Vector2(stats.hitboxBase, stats.hitboxHeight),
+            0f,
+            groundLayer
+        );
+
+        // Iterate through the colliders and check if any of them are not tagged as "OneWay"
+        foreach (var collider in colliders)
+        {
+            if (!collider.CompareTag("OneWayDown"))
+            {
+                // If we find a valid collision that is not "OneWay", return true
+                return true;
+            }
+        }
+
+        // If no valid collisions are found, return false
+        return false;
+    }
 
     private void Flip()
     {
@@ -203,7 +271,7 @@ public class SuperCharacterController2 : MonoBehaviour
             gravityModifier = 1;
         }
 
-        if (IsGrounded() && movement.y <= 0f)
+        if (IsGrounded() && !ignoreGround && movement.y <= 0f)
         {
             movement.y = stats.weightForce;
         }
@@ -220,8 +288,44 @@ public class SuperCharacterController2 : MonoBehaviour
     private void EdgeHandling()
     {
 
-        bool leftCheck = Physics2D.OverlapBox(ceilingBoxLeft.position + new Vector3(-(1 - stats.ceilingBoxSize + stats.ceilingBoxPosition) / 2f, 0f, 0f), new Vector2(stats.ceilingBoxSize - 0.05f, 0.1f), 0f, groundLayer);
-        bool rightCheck = Physics2D.OverlapBox(ceilingBoxRight.position + new Vector3((1 - stats.ceilingBoxSize + stats.ceilingBoxPosition) / 2f, 0f, 0f), new Vector2(stats.ceilingBoxSize - 0.05f, 0.1f), 0f, groundLayer);
+        bool leftCheck = false;
+        bool rightCheck = false;
+
+        // First, detect all overlapping colliders
+        Collider2D[] collidersLeft = Physics2D.OverlapBoxAll(
+            ceilingBoxLeft.position + new Vector3(-(1 - stats.ceilingBoxSize + stats.ceilingBoxPosition) / 2f, 0f, 0f),
+            new Vector2(stats.ceilingBoxSize - 0.05f, 0.1f),
+            0f,
+            groundLayer
+        );
+
+        Collider2D[] collidersRight = Physics2D.OverlapBoxAll(
+            ceilingBoxLeft.position + new Vector3((1 - stats.ceilingBoxSize + stats.ceilingBoxPosition) / 2f, 0f, 0f),
+            new Vector2(stats.ceilingBoxSize - 0.05f, 0.1f),
+            0f,
+            groundLayer
+        );
+
+        // Now, filter out the ones tagged as "OneWay"
+        foreach (var collider in collidersLeft)
+        {
+            if (!collider.CompareTag("OneWayDown"))
+            {
+                // If the collider is not tagged as "OneWay", it's a valid collision
+                leftCheck = true;
+                break;
+            }
+        }
+
+        foreach (var collider in collidersRight)
+        {
+            if (!collider.CompareTag("OneWayDown"))
+            {
+                // If the collider is not tagged as "OneWay", it's a valid collision
+                rightCheck = true;
+                break;
+            }
+        }
 
         foreach (Collider2D objectCol in groundColliders)
         {
@@ -273,7 +377,7 @@ public class SuperCharacterController2 : MonoBehaviour
     }
     private void ClimbLadder()
     {
-        if (isClimbing)
+        if (isClimbing && !isJumping)
         {
             movement.y = stats.ladderClimbSpeed * yMovement;
         }
@@ -281,11 +385,14 @@ public class SuperCharacterController2 : MonoBehaviour
 
     private void CheckHazards()
     {
-        if (SpikeHit())
+        if (SpikeHit() || PlayerObliteration())
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private bool SpikeHit() => Physics2D.OverlapCapsule(new Vector2(hurtBox.position.x + stats.capsuleCenter.x, hurtBox.position.y + stats.capsuleCenter.y), stats.capsuleSize, stats.capsuleDirection, 0, hazardLayer);
+    private bool PlayerObliteration() => Physics2D.OverlapCapsule(new Vector2(hurtBox.position.x + stats.capsuleCenter.x, hurtBox.position.y + stats.capsuleCenter.y), stats.capsuleSize, stats.capsuleDirection, 0, otherPlayerLayer);
+
+
 
     void DrawCapsule(Vector2 center, Vector2 size, CapsuleDirection2D direction)
     {
@@ -317,20 +424,89 @@ public class SuperCharacterController2 : MonoBehaviour
             Gizmos.DrawLine(new Vector2(leftCircleCenter.x, center.y + radius), new Vector2(rightCircleCenter.x, center.y + radius));
         }
     }
-    private void OnTriggerEnter2D(Collider2D ladderCollision)
+
+    private void CheckIce()
     {
-        if (ladderCollision.CompareTag("Ladder"))
+
+        if (isIce)
         {
-            isLadder = true;
+            accelerationModifier = stats.iceAccelerationModifier;
+        }
+        else
+        {
+            accelerationModifier = Mathf.MoveTowards(accelerationModifier, 1, stats.defrostRate);
+        }
+
+        groundDeceleration *= accelerationModifier;
+        groundAcceleration *= accelerationModifier;
+        airDeceleration *= accelerationModifier;
+        airAcceleration *= accelerationModifier;
+
+    }
+    private void OneWayPlatform()
+    {
+        if (Input.GetAxisRaw("Vertical") < 0)
+        {
+            if (currentOneWay)
+            {
+                StartCoroutine(DisableCollision());
+            }
         }
     }
 
-    private void OnTriggerExit2D(Collider2D ladderCollision)
+    private IEnumerator DisableCollision()
     {
-        if (ladderCollision.CompareTag("Ladder"))
+        CompositeCollider2D platformCollider = currentOneWay.GetComponent<CompositeCollider2D>();
+
+        ignoreGround = true;
+        Physics2D.IgnoreCollision(playerCol, platformCollider);
+        yield return new WaitForSeconds(0.25f);
+        ignoreGround = false;
+        Physics2D.IgnoreCollision(playerCol, platformCollider, false);
+
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        switch (collision.tag)
         {
-            isLadder = false;
-            isClimbing = false;
+            case "Ladder":
+                isLadder = true;
+                break;
+
+            case "Ice":
+                isIce = true;
+                break;
+        }
+
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        switch (collision.tag)
+        {
+            case "Ladder":
+                isLadder = false;
+                isClimbing = false;
+                break;
+
+            case "Ice":
+                isIce = false;
+                break;
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("OneWayDown"))
+        {
+            currentOneWay = collision.gameObject;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("OneWayDown"))
+        {
+            currentOneWay = null;
         }
     }
 }

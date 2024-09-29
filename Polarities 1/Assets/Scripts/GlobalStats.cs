@@ -25,7 +25,7 @@ public class ScriptableStats : MonoBehaviour
     // Modified Lateral Movement
     [Header("Modified Lateral Movement"), Tooltip("The fastest a player can generally move laterally without the influence of other external forces."),
         ContextMenuItem("Set Default Sprint Settings", "SprintDefaultModifier")]
-    public float sprintSpeed = 7f;
+    public float sprintSpeed = 5f;
 
     [Tooltip("The player has takes longer to decelerate when sprinting.")]
     public float sprintGroundDeceleration = 30f;
@@ -58,10 +58,10 @@ public class ScriptableStats : MonoBehaviour
     [Tooltip("How much of the maximum height the player jumps when letting go")]
     public float jumpHeightModifier = 0.4f;
 
-    [Tooltip("How much of the maximum height the player jumps when letting go")]
+    [Tooltip("How much of the maximum height the player jumps when letting go"), Range(0f, 1f)]
     public float hitboxHeight = 0.1f;
 
-    [Tooltip("How much of the maximum height the player jumps when letting go")]
+    [Tooltip("How much of the maximum height the player jumps when letting go"), Range(0f, 1f)]
     public float hitboxBase = 0.4f;
 
     [Tooltip("How much of the maximum height the player jumps when letting go")]
@@ -72,10 +72,10 @@ public class ScriptableStats : MonoBehaviour
 
     // Maximum Speeds the Player May Fall
     [Header("Fall Speeds"), Tooltip("The modified terminal velocity of the player")]
-    public float fastFallSpeed = 24f;
+    public float fastFallSpeed = 17f;
 
     [Tooltip("The rate of change between slow and fast fall")]
-    public float fastFallAcceleration = 150f;
+    public float fastFallAcceleration = 75f;
 
     [Tooltip("The highest at which the player may move upward before being able to initiate a fast fall")]
     public float fastFallActuationSpeed = 3f;
@@ -106,9 +106,20 @@ public class ScriptableStats : MonoBehaviour
     // Player Hurtbox Control
     [Header("Hurtbox Control"), Tooltip("Centre of the capsule")]
     public Vector2 capsuleCenter = new Vector2(0f, 0f);
+
+    [Tooltip("The radius of the capsule circles (x) and distance between them (y)")]
     public Vector2 capsuleSize = new Vector2(0.5f, 1.375f);
+
+    [Tooltip("The direction of the capsule")]
     public CapsuleDirection2D capsuleDirection = CapsuleDirection2D.Vertical;
 
+
+    // Ice Acceleration
+    [Header("Ice"), Tooltip("Acceleration modifier when on ice")]
+    public float iceAccelerationModifier = 0.2f;
+
+    [Tooltip("The rate at which the player regains their ordinary acceleration after having been on ice"), Range(0, 0.01f)]
+    public float defrostRate = 0.001f;
 
     // Inspector Steps
     [Space(30), Header("Inspector Steps"), Tooltip("Rounds slider changes to nearest .01")]
@@ -118,6 +129,9 @@ public class ScriptableStats : MonoBehaviour
     {
         ceilingBoxSize = Mathf.Round(ceilingBoxSize / step1) * step1;
         ceilingBoxPosition = Mathf.Round(ceilingBoxPosition / step1) * step1;
+        hitboxHeight = Mathf.Round(hitboxHeight / step1) * step1;
+        hitboxBase = Mathf.Round(hitboxBase / step1) * step1;
+
     }
 
     private void SprintDefaultModifier()

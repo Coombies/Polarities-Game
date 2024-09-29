@@ -15,4 +15,5 @@ public class HurtboxCollision : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
+
 }

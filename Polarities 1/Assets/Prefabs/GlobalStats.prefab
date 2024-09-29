@@ -60,8 +60,8 @@ MonoBehaviour:
   coyoteTime: 0.08
   jumpBufferTime: 0.08
   jumpHeightModifier: 0.4
-  hitboxHeight: 0.1
-  hitboxBase: 0.4
+  hitboxHeight: 0.08
+  hitboxBase: 0.39999998
   graceGravityModifier: 0.4
   verticalSpeedApexThreshold: 3
   fastFallSpeed: 24
@@ -76,4 +76,6 @@ MonoBehaviour:
   capsuleCenter: {x: 0, y: 0}
   capsuleSize: {x: 0, y: 0}
   capsuleDirection: 0
+  iceAccelerationModifier: 0.2
+  defrostRate: 0.001
   step1: 0.01
