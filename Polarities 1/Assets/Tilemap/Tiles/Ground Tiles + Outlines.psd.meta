@@ -1899,14 +1899,41 @@ TextureImporter:
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape:
-      - - {x: -4, y: 0}
+      - - {x: 4, y: 4}
         - {x: -4, y: 4}
-        - {x: 4, y: 4}
+        - {x: -4, y: 4}
+        - {x: -4, y: 0}
         - {x: 4, y: 0}
       tessellationDetail: 0
       bones: []
       spriteID: 3ee678b40473de044a84506cf0c24fe6
       internalID: 184079164
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ground Tiles + Outlines_83
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 112
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape:
+      - - {x: 4, y: 4}
+        - {x: -4, y: -4}
+        - {x: -4, y: -4}
+        - {x: 4, y: -4}
+        - {x: 4, y: 4}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2edf479d28226354fa37140d830182ce
+      internalID: -423305357
       vertices: []
       indices: 
       edges: []
@@ -2004,6 +2031,7 @@ TextureImporter:
       Ground Tiles + Outlines_80: -914190978
       Ground Tiles + Outlines_81: -1511460590
       Ground Tiles + Outlines_82: 184079164
+      Ground Tiles + Outlines_83: -423305357
       Ground Tiles + Outlines_9: 2072084034
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0

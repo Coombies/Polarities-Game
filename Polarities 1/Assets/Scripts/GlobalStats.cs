@@ -121,6 +121,12 @@ public class ScriptableStats : MonoBehaviour
     [Tooltip("The rate at which the player regains their ordinary acceleration after having been on ice"), Range(0, 0.01f)]
     public float defrostRate = 0.001f;
 
+
+    // Platforms
+    [Header("Platforms"), Tooltip("The point at which the player snaps to a platform"), Range(0, 1)]
+    public float snapThreshold = 1f;
+
+
     // Inspector Steps
     [Space(30), Header("Inspector Steps"), Tooltip("Rounds slider changes to nearest .01")]
     public float step1 = 0.01f;
@@ -131,6 +137,7 @@ public class ScriptableStats : MonoBehaviour
         ceilingBoxPosition = Mathf.Round(ceilingBoxPosition / step1) * step1;
         hitboxHeight = Mathf.Round(hitboxHeight / step1) * step1;
         hitboxBase = Mathf.Round(hitboxBase / step1) * step1;
+        snapThreshold = Mathf.Round(snapThreshold / step1) * step1;
 
     }
 

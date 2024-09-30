@@ -86,7 +86,6 @@ public class SuperCharacterController1 : MonoBehaviour
 
         // calls modded methods that require inputs
         CheckLadder();
-        CheckIce();
         OneWayPlatform();
     }
 
@@ -121,22 +120,31 @@ public class SuperCharacterController1 : MonoBehaviour
 
         // There is air acceleration/deceleration, and a different speed for sprint and walk for
         // maximum control over the platformers movement
+        if (IsIce())
+        {
+            accelerationModifier = stats.iceAccelerationModifier;
+        }
+        else if (IsGrounded())
+        {
+            accelerationModifier = 1;
+        }
+
         if (Input.GetKey(KeyCode.LeftShift) && Mathf.Abs(movement.x) >= stats.normalSpeed)
         {
 
-            groundAcceleration = stats.sprintGroundAcceleration;
-            groundDeceleration = stats.sprintGroundDeceleration;
-            airAcceleration = stats.sprintAirAcceleration;
-            airDeceleration = stats.sprintAirDeceleration;
+            groundAcceleration = stats.sprintGroundAcceleration * accelerationModifier;
+            groundDeceleration = stats.sprintGroundDeceleration * accelerationModifier;
+            airAcceleration = stats.sprintAirAcceleration * accelerationModifier;
+            airDeceleration = stats.sprintAirDeceleration * accelerationModifier;
 
             moveSpeed = stats.sprintSpeed;
         }
         else
         {
-            groundAcceleration = stats.normalGroundAcceleration;
-            groundDeceleration = stats.normalGroundDeceleration;
-            airAcceleration = stats.normalAirAcceleration;
-            airDeceleration = stats.normalAirDeceleration;
+            groundAcceleration = stats.normalGroundAcceleration * accelerationModifier;
+            groundDeceleration = stats.normalGroundDeceleration * accelerationModifier;
+            airAcceleration = stats.normalAirAcceleration * accelerationModifier;
+            airDeceleration = stats.normalAirDeceleration * accelerationModifier;
 
             moveSpeed = stats.normalSpeed;
         }
@@ -371,6 +379,9 @@ public class SuperCharacterController1 : MonoBehaviour
         // modded gizmos
         Gizmos.color = Color.blue;
         DrawCapsule(new Vector2(hurtBox.position.x + stats.capsuleCenter.x, hurtBox.position.y + stats.capsuleCenter.y), stats.capsuleSize, stats.capsuleDirection);
+
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawLine(transform.position, transform.position + Vector3.down * 1f);
     }
 
     // Below are additional methods that aren't a part of the default script
@@ -396,8 +407,79 @@ public class SuperCharacterController1 : MonoBehaviour
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    private void OneWayPlatform()
+    {
+
+        if (Input.GetAxisRaw("Vertical") < 0)
+        {
+            if (currentOneWay)
+            {
+                StartCoroutine(DisableCollision());
+            }
+        }
+
+        if (xMovement != 0 && yMovement == 0 && !Input.GetKey(KeyCode.Space))
+        {
+            SnapToPlatform();
+        }
+    }
+
+    private void SnapToPlatform()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1f, groundLayer);
+
+        if (hit.collider != null && hit.collider.CompareTag("OneWayUp"))
+        {
+            float platformTop = Mathf.Abs(hit.collider.bounds.max.y);
+            float playerBottom = Mathf.Abs(playerCol.bounds.min.y);
+
+            if (platformTop < playerBottom && playerBottom - platformTop < stats.snapThreshold)
+            {
+                // Snap player to the top of the platform
+                transform.position = new Vector2(transform.position.x, transform.position.y + playerBottom - platformTop);
+            }
+        }
+    }
+
+    private IEnumerator DisableCollision()
+    {
+        CompositeCollider2D platformCollider = currentOneWay.GetComponent<CompositeCollider2D>();
+
+        ignoreGround = true;
+        Physics2D.IgnoreCollision(playerCol, platformCollider);
+        yield return new WaitForSeconds(0.25f);
+        ignoreGround = false;
+        Physics2D.IgnoreCollision(playerCol, platformCollider, false);
+
+    }
+
     private bool SpikeHit() => Physics2D.OverlapCapsule(new Vector2(hurtBox.position.x + stats.capsuleCenter.x, hurtBox.position.y + stats.capsuleCenter.y), stats.capsuleSize, stats.capsuleDirection, 0, hazardLayer);
+
     private bool PlayerObliteration() => Physics2D.OverlapCapsule(new Vector2(hurtBox.position.x + stats.capsuleCenter.x, hurtBox.position.y + stats.capsuleCenter.y), stats.capsuleSize, stats.capsuleDirection, 0, otherPlayerLayer);
+
+    private bool IsIce()
+    {
+        // Perform OverlapBoxAll to get all colliders in the box
+        Collider2D[] colliders = Physics2D.OverlapBoxAll(
+            groundCheck.position,
+            new Vector2(stats.hitboxBase, stats.hitboxHeight),
+            0f,
+            groundLayer
+        );
+
+        // Iterate through the colliders and check if any of them are not tagged as "OneWay"
+        foreach (var collider in colliders)
+        {
+            if (collider.CompareTag("Ice"))
+            {
+                // If we find a valid collision that is not "OneWay", return true
+                return true;
+            }
+        }
+
+        // If no valid collisions are found, return false
+        return false;
+    }
 
     void DrawCapsule(Vector2 center, Vector2 size, CapsuleDirection2D direction)
     {
@@ -428,48 +510,6 @@ public class SuperCharacterController1 : MonoBehaviour
             Gizmos.DrawLine(new Vector2(leftCircleCenter.x, center.y - radius), new Vector2(rightCircleCenter.x, center.y - radius));
             Gizmos.DrawLine(new Vector2(leftCircleCenter.x, center.y + radius), new Vector2(rightCircleCenter.x, center.y + radius));
         }
-    }
-
-    private void CheckIce()
-    {
-
-        if (isIce)
-        {
-            accelerationModifier = stats.iceAccelerationModifier;
-        }
-        else
-        {
-            accelerationModifier = Mathf.MoveTowards(accelerationModifier, 1, stats.defrostRate);
-        }
-
-        groundDeceleration *= accelerationModifier;
-        groundAcceleration *= accelerationModifier;
-        airDeceleration *= accelerationModifier;
-        airAcceleration *= accelerationModifier;
-
-    }
-
-    private void OneWayPlatform()
-    {
-        if (Input.GetAxisRaw("Vertical") < 0)
-        {
-            if (currentOneWay)
-            {
-                StartCoroutine(DisableCollision());
-            }
-        }
-    }
-
-    private IEnumerator DisableCollision()
-    {
-        CompositeCollider2D platformCollider = currentOneWay.GetComponent<CompositeCollider2D>();
-
-        ignoreGround = true;
-        Physics2D.IgnoreCollision(playerCol, platformCollider);
-        yield return new WaitForSeconds(0.25f);
-        ignoreGround = false;
-        Physics2D.IgnoreCollision(playerCol, platformCollider, false);
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
