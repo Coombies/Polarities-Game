@@ -116,7 +116,7 @@ public class ScriptableStats : MonoBehaviour
 
     // Ice Acceleration
     [Header("Ice"), Tooltip("Acceleration modifier when on ice")]
-    public float iceAccelerationModifier = 0.2f;
+    public float iceAccelerationModifier = 0.05f;
 
     [Tooltip("The rate at which the player regains their ordinary acceleration after having been on ice"), Range(0, 0.01f)]
     public float defrostRate = 0.001f;
