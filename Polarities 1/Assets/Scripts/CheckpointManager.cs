@@ -1,13 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CheckpointManager : MonoBehaviour
 {
     private bool blueCharacterAtCheckpoint = false;
     private bool redCharacterAtCheckpoint = false;
 
+    private int nextSceneToLoad;
+
     // Call this method when the blue character reaches their checkpoint
+
+    private void Start()
+    {
+        nextSceneToLoad = SceneManager.GetActiveScene().buildIndex + 1;
+    }
     public void BlueCharacterReachedCheckpoint()
     {
         blueCharacterAtCheckpoint = true;
@@ -27,7 +35,7 @@ public class CheckpointManager : MonoBehaviour
         if (blueCharacterAtCheckpoint && redCharacterAtCheckpoint)
         {
             // Both characters have reached their checkpoints
-            Debug.Log("Level Completed!");
+            SceneManager.LoadScene(nextSceneToLoad);
             // Add logic to handle level completion
         }
     }

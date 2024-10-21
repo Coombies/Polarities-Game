@@ -1054,6 +1054,67 @@ Transform:
   - {fileID: 203773132}
   m_Father: {fileID: 7893884479803727624}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1114706360
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 856986403335128058, guid: d0b04c2a0758b9448b52e05eac5e1aa2, type: 3}
+      propertyPath: levelNum
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 972726470321901641, guid: d0b04c2a0758b9448b52e05eac5e1aa2, type: 3}
+      propertyPath: m_Name
+      value: LevelExit
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205007622666194248, guid: d0b04c2a0758b9448b52e05eac5e1aa2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 875.57715
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205007622666194248, guid: d0b04c2a0758b9448b52e05eac5e1aa2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 599.88116
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205007622666194248, guid: d0b04c2a0758b9448b52e05eac5e1aa2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -7.6844916
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205007622666194248, guid: d0b04c2a0758b9448b52e05eac5e1aa2, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205007622666194248, guid: d0b04c2a0758b9448b52e05eac5e1aa2, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205007622666194248, guid: d0b04c2a0758b9448b52e05eac5e1aa2, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205007622666194248, guid: d0b04c2a0758b9448b52e05eac5e1aa2, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205007622666194248, guid: d0b04c2a0758b9448b52e05eac5e1aa2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205007622666194248, guid: d0b04c2a0758b9448b52e05eac5e1aa2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8205007622666194248, guid: d0b04c2a0758b9448b52e05eac5e1aa2, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d0b04c2a0758b9448b52e05eac5e1aa2, type: 3}
 --- !u!1 &1123457337
 GameObject:
   m_ObjectHideFlags: 0
@@ -2382,15 +2443,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2146361620616817954, guid: f83e6987c9068694c8b2d0db325d2240, type: 3}
       propertyPath: hitboxBase
-      value: 0.45
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 2146361620616817954, guid: f83e6987c9068694c8b2d0db325d2240, type: 3}
       propertyPath: defrostRate
-      value: 0.0003
+      value: 0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 2146361620616817954, guid: f83e6987c9068694c8b2d0db325d2240, type: 3}
+      propertyPath: sprintSpeed
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2146361620616817954, guid: f83e6987c9068694c8b2d0db325d2240, type: 3}
       propertyPath: hitboxHeight
-      value: 0.049999997
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 2146361620616817954, guid: f83e6987c9068694c8b2d0db325d2240, type: 3}
       propertyPath: capsuleSize.x
@@ -2405,8 +2470,20 @@ PrefabInstance:
       value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 2146361620616817954, guid: f83e6987c9068694c8b2d0db325d2240, type: 3}
+      propertyPath: fastFallSpeed
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 2146361620616817954, guid: f83e6987c9068694c8b2d0db325d2240, type: 3}
       propertyPath: ceilingBoxPosition
       value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2146361620616817954, guid: f83e6987c9068694c8b2d0db325d2240, type: 3}
+      propertyPath: fastFallAcceleration
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2146361620616817954, guid: f83e6987c9068694c8b2d0db325d2240, type: 3}
+      propertyPath: minJumpHeightThreshold
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 2146361620616817954, guid: f83e6987c9068694c8b2d0db325d2240, type: 3}
       propertyPath: iceAccelerationModifier
@@ -21666,3 +21743,4 @@ SceneRoots:
   - {fileID: 3155820051859439859}
   - {fileID: 1448335617}
   - {fileID: 706909955}
+  - {fileID: 1114706360}
