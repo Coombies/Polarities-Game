@@ -58,17 +58,20 @@ public class ScriptableStats : MonoBehaviour
     [Tooltip("How much of the maximum height the player jumps when letting go")]
     public float jumpHeightModifier = 0.4f;
 
-    [Tooltip("How much of the maximum height the player jumps when letting go"), Range(0f, 1f)]
+    [Tooltip("Height of the groundCheck hitbox"), Range(0f, 1f)]
     public float hitboxHeight = 0.1f;
 
-    [Tooltip("How much of the maximum height the player jumps when letting go"), Range(0f, 1f)]
+    [Tooltip("Base length of the groundCheck hitbox"), Range(0f, 1f)]
     public float hitboxBase = 0.4f;
 
-    [Tooltip("How much of the maximum height the player jumps when letting go")]
+    [Tooltip("What the gravity is multiplied by when past the jump apex threshold")]
     public float graceGravityModifier = 0.4f;
 
-    [Tooltip("How much of the maximum height the player jumps when letting go")]
+    [Tooltip("The speed threshold at which the gravity becomes lower")]
     public float verticalSpeedApexThreshold = 3f;
+
+    [Tooltip("The lowest y speed before the player may perform a smaller jump")]
+    public float minJumpHeightThreshold = 14f;
 
     // Maximum Speeds the Player May Fall
     [Header("Fall Speeds"), Tooltip("The modified terminal velocity of the player")]

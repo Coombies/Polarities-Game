@@ -492,12 +492,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2146361620616817954, guid: f83e6987c9068694c8b2d0db325d2240, type: 3}
+      propertyPath: hitboxBase
+      value: 0.39999998
+      objectReference: {fileID: 0}
+    - target: {fileID: 2146361620616817954, guid: f83e6987c9068694c8b2d0db325d2240, type: 3}
       propertyPath: sprintSpeed
-      value: 7
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2146361620616817954, guid: f83e6987c9068694c8b2d0db325d2240, type: 3}
       propertyPath: hitboxHeight
-      value: 0.08
+      value: 0.099999994
       objectReference: {fileID: 0}
     - target: {fileID: 2146361620616817954, guid: f83e6987c9068694c8b2d0db325d2240, type: 3}
       propertyPath: capsuleSize.x
@@ -526,6 +530,10 @@ PrefabInstance:
     - target: {fileID: 2146361620616817954, guid: f83e6987c9068694c8b2d0db325d2240, type: 3}
       propertyPath: fastFallAcceleration
       value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2146361620616817954, guid: f83e6987c9068694c8b2d0db325d2240, type: 3}
+      propertyPath: minJumpHeightThreshold
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 2146361620616817954, guid: f83e6987c9068694c8b2d0db325d2240, type: 3}
       propertyPath: iceAccelerationModifier

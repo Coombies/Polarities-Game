@@ -196,15 +196,19 @@ public class SuperCharacterController2 : MonoBehaviour
             isJumping = true;
         }
 
-        if (Input.GetKeyUp(KeyCode.Space) && movement.y > 0)
+        if (isJumping)
         {
-            movement.y *= stats.jumpHeightModifier;
-            coyoteJump = 0f;
-        }
+            if (!Input.GetKey(KeyCode.Space) && movement.y > 0 && movement.y < stats.minJumpHeightThreshold)
+            {
+                movement.y *= stats.jumpHeightModifier;
+                coyoteJump = 0f;
+                isJumping = false;
+            }
 
-        if (movement.y <= 0)
-        {
-            isJumping = false;
+            if (movement.y <= 0)
+            {
+                isJumping = false;
+            }
         }
     }
 

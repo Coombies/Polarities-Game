@@ -198,17 +198,20 @@ public class SuperCharacterController1 : MonoBehaviour
             isJumping = true;
         }
 
-        if (Input.GetKeyUp(KeyCode.Space) && movement.y > 0)
+        if (isJumping)
         {
-            movement.y *= stats.jumpHeightModifier;
-            coyoteJump = 0f;
-        }
+            if (!Input.GetKey(KeyCode.Space) && movement.y > 0 && movement.y < stats.minJumpHeightThreshold)
+            {
+                movement.y *= stats.jumpHeightModifier;
+                coyoteJump = 0f;
+                isJumping = false;
+            }
 
-        if (movement.y <= 0)
-        {
-            isJumping = false;
+            if (movement.y <= 0)
+            {
+                isJumping = false;
+            }
         }
-
     }
 
     // returns true if the GroundCheck object is colliding with the Ground layer
