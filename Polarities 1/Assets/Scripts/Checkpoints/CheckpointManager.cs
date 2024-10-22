@@ -3,19 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class CheckpointManager : MonoBehaviour
+public class CheckpointManager : MonoBehaviour, IDataPersistence
 {
     private bool blueCharacterAtCheckpoint = false;
     private bool redCharacterAtCheckpoint = false;
+    private int currentLevelNum;
+    private int maxLevelNum;
+    private static CheckpointManager instance;
 
-    private int nextSceneToLoad;
+    public int targetLevelNum;
+
+    private void Awake()
+    {
+        // Singleton implementation
+        if (instance != null && instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
 
     // Call this method when the blue character reaches their checkpoint
-
     private void Start()
     {
-        nextSceneToLoad = SceneManager.GetActiveScene().buildIndex + 1;
+        currentLevelNum = SceneManager.GetActiveScene().buildIndex - 1;
+        Debug.Log(currentLevelNum);
     }
+
     public void BlueCharacterReachedCheckpoint()
     {
         blueCharacterAtCheckpoint = true;
@@ -34,8 +50,9 @@ public class CheckpointManager : MonoBehaviour
     {
         if (blueCharacterAtCheckpoint && redCharacterAtCheckpoint)
         {
+
             // Both characters have reached their checkpoints
-            SceneManager.LoadScene(nextSceneToLoad);
+            SceneManager.LoadScene(targetLevelNum);
             // Add logic to handle level completion
         }
     }
@@ -48,4 +65,18 @@ public class CheckpointManager : MonoBehaviour
         else if (characterColor == "red")
             redCharacterAtCheckpoint = false;
     }
+
+    public void SaveData(ref GameData data)
+    {
+        if (targetLevelNum - 2 > data.levelCount)
+        {
+            data.levelCount = targetLevelNum - 2;
+        }
+    }
+
+    public void LoadData(GameData data)
+    {
+        // The Checkpoint Manager only Saves Data, it does not read it
+    }
 }
+

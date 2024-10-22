@@ -60,23 +60,29 @@
     <Analyzer Include="C:\Program Files\Unity 2022.3.30f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\ObjectMovement.cs" />
-    <Compile Include="Assets\Scripts\RedCheckpoint.cs" />
-    <Compile Include="Assets\Scripts\ExitGame.cs" />
-    <Compile Include="Assets\Scripts\ParticleSizeController.cs" />
-    <Compile Include="Assets\Scripts\AnimationController.cs" />
-    <Compile Include="Assets\Scripts\LevelSelect.cs" />
-    <Compile Include="Assets\Scripts\ShadowCasterTilemap.cs" />
-    <Compile Include="Assets\Scripts\ObjectMovement1.cs" />
-    <Compile Include="Assets\Scripts\P2ScriptableStats.cs" />
-    <Compile Include="Assets\Scripts\CheckpointManager.cs" />
-    <Compile Include="Assets\Scripts\P1SuperCharacterController.cs" />
-    <Compile Include="Assets\Scripts\LevelExit.cs" />
-    <Compile Include="Assets\Scripts\GlobalStats.cs" />
-    <Compile Include="Assets\Scripts\P2SuperCharacterController.cs" />
-    <Compile Include="Assets\Scripts\BlueCheckpoint.cs" />
-    <Compile Include="Assets\Scripts\ObjectMovement2.cs" />
+    <Compile Include="Assets\Scripts\Checkpoints\RedCheckpoint.cs" />
+    <Compile Include="Assets\Scripts\ObjectMovement\ObjectMovement1.cs" />
+    <Compile Include="Assets\Scripts\ScriptableStats\P2ScriptableStats.cs" />
+    <Compile Include="Assets\Scripts\CharacterControllers\P1SuperCharacterController.cs" />
+    <Compile Include="Assets\Scripts\MenuLogic\LevelExit.cs" />
+    <Compile Include="Assets\Scripts\MenuLogic\ExitGame.cs" />
+    <Compile Include="Assets\Scripts\DataPersistence\FileDataHandler.cs" />
+    <Compile Include="Assets\Scripts\Checkpoints\CheckpointManager.cs" />
+    <Compile Include="Assets\Scripts\ObjectMovement\ObjectMovement.cs" />
+    <Compile Include="Assets\Scripts\DataPersistence\IDataPersistence.cs" />
+    <Compile Include="Assets\Scripts\CharacterControllers\P2SuperCharacterController.cs" />
+    <Compile Include="Assets\Scripts\MenuLogic\MainMenu.cs" />
+    <Compile Include="Assets\Scripts\GraphicsControllers\ShadowCasterTilemap.cs" />
+    <Compile Include="Assets\Scripts\MenuLogic\LevelSelect.cs" />
+    <Compile Include="Assets\Scripts\ObjectMovement\ObjectMovement2.cs" />
+    <Compile Include="Assets\Scripts\ScriptableStats\GlobalStats.cs" />
+    <Compile Include="Assets\Scripts\GraphicsControllers\AnimationController.cs" />
+    <Compile Include="Assets\Scripts\DataPersistence\Data\GameData.cs" />
+    <Compile Include="Assets\Scripts\GraphicsControllers\ParticleSizeController.cs" />
+    <Compile Include="Assets\Scripts\Checkpoints\BlueCheckpoint.cs" />
+    <Compile Include="Assets\Scripts\DataPersistence\DataPersistenceManager.cs" />
     <Compile Include="Assets\Scripts\HurtboxCollision.cs" />
+    <Compile Include="Assets\Scripts\MenuLogic\LevelSelectManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
