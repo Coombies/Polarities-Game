@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// Currently Broken, meant to control the sizes of stars in the background
+/// of the first level. WIP.
+/// </summary>
 public class ParticleSizeController : MonoBehaviour
 {
     // Define specific sizes for pixel-perfect stars
@@ -15,21 +20,25 @@ public class ParticleSizeController : MonoBehaviour
 
         // Hook into the Particle System's event when particles are emitted
         var main = particleSystem.main;
-        main.startSize = 1;  // Set a default, doesn't matter, script will override
+        main.startSize = 1;  // Set a default, doesn't matter,
+                             // script will override
     }
 
     void Update()
     {
         // Modify particle size when emitted
-        ParticleSystem.Particle[] particles = new ParticleSystem.Particle[particleSystem.particleCount];
+        ParticleSystem.Particle[] particles =
+            new ParticleSystem.Particle[particleSystem.particleCount];
         int numParticlesAlive = particleSystem.GetParticles(particles);
 
         for (int i = 0; i < numParticlesAlive; i++)
         {
-            if (particles[i].remainingLifetime == particles[i].startLifetime)  // This ensures it runs once when the particle spawns
+            // This ensures it runs once when the particle spawns
+            if (particles[i].remainingLifetime == particles[i].startLifetime)
             {
                 Debug.Log("Do stuff");
-                particles[i].startSize = starSizes[Random.Range(0, starSizes.Length)];
+                particles[i].startSize =
+                    starSizes[Random.Range(0, starSizes.Length)];
             }
         }
 

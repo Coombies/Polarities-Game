@@ -45,4 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fileName: data.pol
-  useEncryption: 1
+  useEncryption: 0

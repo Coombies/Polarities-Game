@@ -132,7 +132,7 @@ GameObject:
   m_Component:
   - component: {fileID: 116303564}
   - component: {fileID: 116303563}
-  - component: {fileID: 116303565}
+  - component: {fileID: 116303566}
   m_Layer: 0
   m_Name: MovingObject2
   m_TagString: Untagged
@@ -170,7 +170,7 @@ Transform:
   - {fileID: 1352467865}
   m_Father: {fileID: 655297441}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &116303565
+--- !u!114 &116303566
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -179,13 +179,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 116303562}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5a07cb7364fa7546827a958db7a4aa9, type: 3}
+  m_Script: {fileID: 11500000, guid: d381c429171702f40a206779908b973c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 10
   acceleration: 40
   targetDistance: 3.5
   pauseDuration: 0.2
+  direction: {x: 0, y: -1, z: 0}
 --- !u!114 &250026412 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2146361620616817954, guid: f83e6987c9068694c8b2d0db325d2240, type: 3}
@@ -4006,13 +4007,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1661952032}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18780305153ea7b4aa51a2f5a330200f, type: 3}
+  m_Script: {fileID: 11500000, guid: d381c429171702f40a206779908b973c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 10
   acceleration: 40
   targetDistance: 3.5
   pauseDuration: 0.2
+  direction: {x: 0, y: 1, z: 0}
 --- !u!1 &1671884143
 GameObject:
   m_ObjectHideFlags: 0

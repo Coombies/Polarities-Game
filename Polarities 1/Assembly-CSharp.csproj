@@ -61,20 +61,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Checkpoints\RedCheckpoint.cs" />
-    <Compile Include="Assets\Scripts\ObjectMovement\ObjectMovement1.cs" />
-    <Compile Include="Assets\Scripts\ScriptableStats\P2ScriptableStats.cs" />
     <Compile Include="Assets\Scripts\CharacterControllers\P1SuperCharacterController.cs" />
     <Compile Include="Assets\Scripts\MenuLogic\LevelExit.cs" />
-    <Compile Include="Assets\Scripts\MenuLogic\ExitGame.cs" />
     <Compile Include="Assets\Scripts\DataPersistence\FileDataHandler.cs" />
     <Compile Include="Assets\Scripts\Checkpoints\CheckpointManager.cs" />
     <Compile Include="Assets\Scripts\ObjectMovement\ObjectMovement.cs" />
     <Compile Include="Assets\Scripts\DataPersistence\IDataPersistence.cs" />
     <Compile Include="Assets\Scripts\CharacterControllers\P2SuperCharacterController.cs" />
     <Compile Include="Assets\Scripts\MenuLogic\MainMenu.cs" />
-    <Compile Include="Assets\Scripts\GraphicsControllers\ShadowCasterTilemap.cs" />
     <Compile Include="Assets\Scripts\MenuLogic\LevelSelect.cs" />
-    <Compile Include="Assets\Scripts\ObjectMovement\ObjectMovement2.cs" />
     <Compile Include="Assets\Scripts\ScriptableStats\GlobalStats.cs" />
     <Compile Include="Assets\Scripts\GraphicsControllers\AnimationController.cs" />
     <Compile Include="Assets\Scripts\DataPersistence\Data\GameData.cs" />

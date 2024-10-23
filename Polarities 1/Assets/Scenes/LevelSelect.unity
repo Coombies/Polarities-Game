@@ -923,19 +923,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2695538316544849027, guid: 37f9f1c5fcc3faa468964bb11839bffd, type: 3}
       propertyPath: m_NormalizedViewPortRect.x
-      value: 0
+      value: 0.03125
       objectReference: {fileID: 0}
     - target: {fileID: 2695538316544849027, guid: 37f9f1c5fcc3faa468964bb11839bffd, type: 3}
       propertyPath: m_NormalizedViewPortRect.y
-      value: 0
+      value: 0.03125
       objectReference: {fileID: 0}
     - target: {fileID: 2695538316544849027, guid: 37f9f1c5fcc3faa468964bb11839bffd, type: 3}
       propertyPath: m_NormalizedViewPortRect.width
-      value: 1
+      value: 0.9375
       objectReference: {fileID: 0}
     - target: {fileID: 2695538316544849027, guid: 37f9f1c5fcc3faa468964bb11839bffd, type: 3}
       propertyPath: m_NormalizedViewPortRect.height
-      value: 1
+      value: 0.9375
       objectReference: {fileID: 0}
     - target: {fileID: 7835408413235034894, guid: 37f9f1c5fcc3faa468964bb11839bffd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1804,10 +1804,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
-  m_ReferencePixelsPerUnit: 100
+  m_UiScaleMode: 1
+  m_ReferencePixelsPerUnit: 16
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3

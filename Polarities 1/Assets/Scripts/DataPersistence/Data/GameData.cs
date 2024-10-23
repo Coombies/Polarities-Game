@@ -2,7 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Default values for when the game is started.
+/// </summary>
 [System.Serializable]
+
 public class GameData
 {
     public int levelCount;

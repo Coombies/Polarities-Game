@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
+/// <summary>
+/// Selects which scene to go to when a button is pressed.
+/// </summary>
 public class LevelSelect : MonoBehaviour
 {
 
-    public int levelNum;
-    // Start is called before the first frame update
+    [SerializeField] private int levelNum;
+    
+
+    /// <summary>
+    /// OpenScene() is called when a button is pressed.
+    /// </summary>
     public void OpenScene()
     {
         SceneManager.LoadScene(levelNum + 1);
